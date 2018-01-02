@@ -1,0 +1,14 @@
+kibana access localhost:5601
+
+vi /etc/elasticsearch/elasticsearch.yml		port 8080
+
+/etc/logstash/conf.d/logstash.conf 
+input { stdin { } }
+output {
+  elasticsearch { hosts => ["localhost:8080"] }
+  stdout { codec => rubydebug }
+}
+
+/opt/logstash/bin/logstash -f /etc/logstash/conf.d/logstash.conf 
+
+

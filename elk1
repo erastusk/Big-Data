@@ -1,0 +1,55 @@
+Mar 3 16:56:22 test sshd[8510]: Failed password for user1 from 192.168.2.3 port 34852 ssh2
+Mar 3 16:56:25 test sshd[8510]: Accepted password for user1 from 192.168.2.3 port 34852 ssh2
+Mar 3 16:57:46 test sshd[5328]: Failed password for invalid user user2 from 192.168.2.3 port 45512 
+
+%{NUMBER:duration} %{IP:client}
+%{DATE_US:logtdate} %{TIME:logtimestamp}%{GREEDYDATA}
+
+
+Encoded_Status_Word ........ 0x1
+Operation_Code.........(n/a) 5   Deactivate
+Error_Code_Word ............ 1005 => Serial Number Not Found Error
+Operation_Code.............. 3   Refresh
+              ............. 6 Activate 
+                        
+%{WORD:action}.{2,15} %{INT:Operation_Code}  *(=>)? ?%{GREEDYDATA:Operation_desc}
+
+
+OPERATION_CODE [Operation_Code].{9,14}\b[0-9]\b{3}%{GREEDYDATA}
+
+
+
+
+
+filter {
+  if "grokked" not in [tags] {
+    grok {
+      match => ["message", "Error_Code_Word ............ 2014"]
+      add_field => { "Error_Code" => "2014" }
+      add_field => { "Error" => "Authorization Refresh Failed Error" }
+    }
+  }
+  if "grokked" not in [tags] {
+    grok {
+      match => ["message", "Error_Code_Word ............ 1005"]
+      add_field => { "Error_Code" => "1005" }
+      add_field => { "Error" => "Serial Number Not Found Error" }
+    }
+  }
+
+
+  Operation_Code.............. 6   Activate
+\w+_\w+
+}
+
+[logstash.outputs.elasticsearch] retrying failed action with response code: 403 ({"type"=>"cluster_block_exception", "reason"=>"blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];"})
+
+
+  PUT _settings
+    {
+    "index": {
+    "blocks": {
+    "read_only_allow_delete": "false"
+    }
+    }
+    }

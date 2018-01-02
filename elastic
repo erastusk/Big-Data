@@ -1,0 +1,110 @@
+mapping
+list indices
+GET /_cat/indices?v
+curl -XGET "http://kibana:9200/_cat/indices?pretty"
+curl -XGET "http://kibana:9200/gps?pretty"
+
+delete
+
+curl -XDELETE 'http://kibana:9200/cars?pretty'
+
+search
+curl -GET "http://kibana:9200/gps/_search?pretty"
+
+
+
+
+clear cache
+
+POST /kimchy,elasticsearch/_cache/clear
+POST /gps/_cache/clear
+
+POST /_cache/clear
+
+get index
+
+GET /twitter
+
+to
+
+
+
+GET /_all/_mapping
+
+GET /_mapping
+geopoint mapping
+curl -XPUT "http://kibana:9200/gps" -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "gps": {
+      "properties": {
+        "location": {
+          "type": "geo_point"
+        }
+      }
+    }
+  }
+}'
+
+
+
+
+PUT my_index
+{
+  "mappings": {
+    "my_type": {
+      "properties": {
+        "location": {
+          "type": "geo_point"
+        }
+      }
+    }
+  }
+}
+
+PUT my_index/my_type/1
+{
+  "text": "Geo-point as an object",
+  "location": { 
+    "lat": 41.12,
+    "lon": -71.34
+  }
+}
+
+PUT my_index/my_type/2
+{
+  "text": "Geo-point as a string",
+  "location": "41.12,-71.34" 
+}
+
+PUT my_index/my_type/3
+{
+  "text": "Geo-point as a geohash",
+  "location": "drm3btev3e86" 
+}
+
+PUT my_index/my_type/4
+{
+  "text": "Geo-point as an array",
+  "location": [ -71.34, 41.12 ] 
+}
+
+GET my_index/_search
+{
+  "query": {
+    "geo_bounding_box": { 
+      "location": {
+        "top_left": {
+          "lat": 42,
+          "lon": -72
+        },
+        "bottom_right": {
+          "lat": 40,
+          "lon": -74
+        }
+      }
+    }
+  }
+}
+
+curl -XPUT -H "Content-Type: application/json" https://kibana:9200/_all/_settings -d '{"index.blocks.read_only_allow_delete": null}'
