@@ -1,0 +1,246 @@
+BSI Logger Report
+---------------------------------------------------------------------------------
+   Start time:  12/01/2017 00:00:00
+   End time:    12/01/2017 17:00:00
+---------------------------------------------------------------------------------
+
+12/01/2017 00:00:04.587   bsp15138   BSIcmd   Seq=0   Type=1
+   Packet size: 6
+   Synchronization
+
+---------------------------------------------------------------------------------
+
+12/01/2017 00:00:04.587   bsp15138   DACrsp   Seq=0   Type=1
+   Packet size: 8
+   Return Status Msg
+
+   Encoded_Status_Word ........ 0x1 => 0000 0000 0000 0001
+
+---------------------------------------------------------------------------------
+
+12/01/2017 00:00:04.654   bsp15138   BSIcmd   Seq=1   Type=760
+   Packet size: 203
+   Terminal Request
+
+   BSI_Code ................... 150
+   Request_Type................ 2   Change Terminal
+   Serial_Number .............. MA1616ET0137
+
+   Message_Subtype............. 2   Plant Component
+   Bit_Mask ................... 0x24 => 0000 0000 0000 0000 0000 0000 0010 0100
+   Headend_Handle.........(n/a) 0
+   Upstream_PLant_Handle..(n/a) 0
+   Downstream_Plant_Handle..... 60
+   32 Bit Reserved ............ 0
+   32 Bit Reserved ............ 0
+   VCM_Handle.................. 101
+
+   Message_Subtype............. 4   Feature Component
+   Bit_Mask ................... 0x203 => 0000 0000 0000 0000 0000 0010 0000 0011
+   Credit_Allowed.............. 25000
+   Purchases_Allowed........... 20
+   Max_Pack_Cost .........(n/a) 0
+   Timezone_Handle.......(n/a) 0
+   EPG_Region ............(n/a) 0
+   Configuration Handle...(n/a) 0
+   Turnon_VC .............(n/a) 0
+   Turnoff_VC ............(n/a) 0
+   Output_Channel_# ......(n/a) 0
+   Feature_Setting ............ 0x201FFF => 0000 0000 0010 0000 0001 1111 1111 1111
+        Downloadability...................... ENABLED
+        RF bypass............................ ENABLED
+        Parent control based on channels..... ENABLED
+        Parent control based on rating....... ENABLED
+        Volume and mute controls............. ENABLED
+        IR Blaster control of VCR............ ENABLED
+        Last-Channel......................... ENABLED
+        Favorite channel storage............. ENABLED
+        Parent control based on time......... ENABLED
+        Parent control based on cost......... ENABLED
+        Interactive remote control........... ENABLED
+        Cancellation of PPV purchases........ ENABLED
+        IPPV purchases....................... ENABLED
+        Remote control.......................   disabled
+        Time controlled programming..........   disabled
+        User-specified language..............   disabled
+        AB output............................   disabled
+        Applications interface port..........   disabled
+        Force standalone.....................   disabled
+        Ignore blackout......................   disabled
+        NVOD enabled.........................   disabled
+        High-speed serial output............. ENABLED
+
+   Message_Subtype............. 3   State Component
+   Bit_Mask ................... 0x3 => 0000 0000 0000 0000 0000 0000 0000 0011
+   On_Plant_Flag............... 1
+   Operation_Code.............. 6   Activate
+
+   Message_Subtype............. 7   Package/Service/Program Authorization Component
+   Clear_All_Packages_Flag..... 1
+   Clear_All_Services_Flag..... 1
+   Clear_All_Programs_Flag..... 0
+   Num_Records................. 11
+   (1) 
+   Authorize_Flag.............. 1 - authorized
+   Authorization_Type.......... 255 - Generic Authorization
+   Service_Handle ............. 32765
+   Program_Handle ............. 0
+   (2) 
+   Authorize_Flag.............. 1 - authorized
+   Authorization_Type.......... 255 - Generic Authorization
+   Service_Handle ............. 47109
+   Program_Handle ............. 0
+   (3) 
+   Authorize_Flag.............. 1 - authorized
+   Authorization_Type.......... 255 - Generic Authorization
+   Service_Handle ............. 47111
+   Program_Handle ............. 0
+   (4) 
+   Authorize_Flag.............. 1 - authorized
+   Authorization_Type.......... 255 - Generic Authorization
+   Service_Handle ............. 47143
+   Program_Handle ............. 0
+   (5) 
+   Authorize_Flag.............. 1 - authorized
+   Authorization_Type.......... 255 - Generic Authorization
+   Service_Handle ............. 49885
+   Program_Handle ............. 0
+   (6) 
+   Authorize_Flag.............. 1 - authorized
+   Authorization_Type.......... 255 - Generic Authorization
+   Service_Handle ............. 49890
+   Program_Handle ............. 0
+   (7) 
+   Authorize_Flag.............. 1 - authorized
+   Authorization_Type.......... 255 - Generic Authorization
+   Service_Handle ............. 49896
+   Program_Handle ............. 0
+   (8) 
+   Authorize_Flag.............. 1 - authorized
+   Authorization_Type.......... 255 - Generic Authorization
+   Service_Handle ............. 49897
+   Program_Handle ............. 0
+   (9) 
+   Authorize_Flag.............. 1 - authorized
+   Authorization_Type.......... 255 - Generic Authorization
+   Service_Handle ............. 49898
+   Program_Handle ............. 0
+   (10) 
+   Authorize_Flag.............. 1 - authorized
+   Authorization_Type.......... 255 - Generic Authorization
+   Service_Handle ............. 76000
+   Program_Handle ............. 0
+   (11) 
+   Authorize_Flag.............. 1 - authorized
+   Authorization_Type.......... 255 - Generic Authorization
+   Service_Handle ............. 77777
+   Program_Handle ............. 0
+
+---------------------------------------------------------------------------------
+
+12/01/2017 00:00:06.030   bsp15138   DACrsp   Seq=1   Type=1
+   Packet size: 8
+   Return Status Msg
+
+   Encoded_Status_Word ........ 0x1 => 0000 0000 0000 0001
+
+---------------------------------------------------------------------------------
+
+12/01/2017 00:00:06.065   bsp15138   BSIcmd   Seq=2   Type=760
+   Packet size: 28
+   Terminal Request
+
+   BSI_Code ................... 150
+   Request_Type................ 2   Change Terminal
+   Serial_Number .............. MA1616ET0137
+
+   Message_Subtype............. 3   State Component
+   Bit_Mask ................... 0x3 => 0000 0000 0000 0000 0000 0000 0000 0011
+   On_Plant_Flag............... 1
+   Operation_Code.............. 3   Refresh
+
+---------------------------------------------------------------------------------
+
+12/01/2017 00:00:07.152   bsp15139   BSIcmd   Seq=0   Type=1
+   Packet size: 6
+   Synchronization
+
+---------------------------------------------------------------------------------
+
+12/01/2017 00:00:07.152   bsp15139   DACrsp   Seq=0   Type=1
+   Packet size: 8
+   Return Status Msg
+
+   Encoded_Status_Word ........ 0x1 => 0000 0000 0000 0001
+
+---------------------------------------------------------------------------------
+
+12/01/2017 00:01:33.093   bsp15138   DACrsp   Seq=3   Type=1
+   Packet size: 10
+   Return Status Msg
+
+   Encoded_Status_Word ........ 0x2 => 0000 0000 0000 0010
+   Error_Code_Word ............ 2012 => Single Settop Poll Failed Error
+
+---------------------------------------------------------------------------------
+
+12/01/2017 00:01:40.284   bsp15139   DACrsp   Seq=1   Type=1
+   Packet size: 10
+   Return Status Msg
+
+   Encoded_Status_Word ........ 0x2 => 0000 0000 0000 0010
+   Error_Code_Word ............ 2012 => Single Settop Poll Failed Error
+
+---------------------------------------------------------------------------------
+
+12/01/2017 00:02:59.193   bsp15143   DACrsp   Seq=1   Type=1
+   Packet size: 10
+   Return Status Msg
+
+   Encoded_Status_Word ........ 0x2 => 0000 0000 0000 0010
+   Error_Code_Word ............ 2012 => Single Settop Poll Failed Error
+
+---------------------------------------------------------------------------------
+
+12/01/2017 01:26:50.016   bsp15141   BSIcmd   Seq=3   Type=760
+   Packet size: 28
+   Terminal Request
+
+   BSI_Code ................... 150
+   Request_Type................ 2   Change Terminal
+   Serial_Number .............. MA1039FUB091
+
+   Message_Subtype............. 3   State Component
+   Bit_Mask ................... 0x3 => 0000 0000 0000 0000 0000 0000 0000 0011
+   On_Plant_Flag............... 1
+   Operation_Code.............. 1   Cold Init
+
+---------------------------------------------------------------------------------
+
+12/01/2017 16:59:59.743   bsp15111   BSIcmd   Seq=1   Type=684
+   Packet size: 27
+   Collect Srvs/Prgrms/Ftrs
+
+   BSI_Code ................... 150
+   Headend_Number ............. 0
+   Equip_Type ................. 0
+   Terminal_Group_Handle ...... 0
+   Serial_Number .............. MT1210TMF512
+   Action_Code................. 2     Query Program Authorizations (Collect Only)
+
+---------------------------------------------------------------------------------
+
+12/01/2017 16:59:59.769   bsp15112   BSIcmd   Seq=1   Type=684
+   Packet size: 27
+   Collect Srvs/Prgrms/Ftrs
+
+   BSI_Code ................... 150
+   Headend_Number ............. 0
+   Equip_Type ................. 0
+   Terminal_Group_Handle ...... 0
+   Serial_Number .............. MA1350EJI716
+   Action_Code................. 2     Query Program Authorizations (Collect Only)
+
+---------------------------------------------------------------------------------
+
+
