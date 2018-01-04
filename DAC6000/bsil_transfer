@@ -1,0 +1,22 @@
+#!/bin/bash
+
+dac=`ls -lrt /bsil_data/bsil_reports/ | sed -n 2p | cut -b 51-56`
+dac_f=`ls -lrt /bsil_data/bsil_reports/ | sed -n 2p | awk '{print $9}'`
+path_reports=/bsil_data/bsil_reports
+path_dac001=/bsil_data/dac001
+path_dac029=/bsil_data/dac029
+
+if [ -z $dac ]
+then
+	echo "couldn't find a bsil report"
+fi
+
+if [ $dac == "dac001" ]
+then
+	`cp -f $path_reports/$dac_f $path_dac001/dac001`
+	`chown root:logstash $path_dac001/dac001`
+else
+	`cp -f $path_reports/$dac_f $path_dac029/dac029`
+	`chown root:logstash $path_dac029/dac029`
+fi
+`rm -rf $path_reports/$dac_f`
