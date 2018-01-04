@@ -1,0 +1,8 @@
+OPERATION_FLAG (^\s*Operation_Code.{2,15}\s*[0-9]+\s*([a-zA-Z]+\s)*([a-zA-Z]*))
+SERIAL_NUMBER  (^\s+Serial_Number\s+(\.)+\s+\w{12})
+ERROR (^\s+Error_Code_Word\s.{5,15}\s+%{INT}\s+=>\s+([a-zA-Z]+\s)+[a-zA-Z]+)
+COLLECT (^*\s+\w+ \w+ \w+\s+*) 
+ADDTERM (^\s+%{WORD}\s*(\.){5,17}\s*%{POSINT}\s*Add\sTerminal)
+DELTERM (^\s+%{WORD}\s*(\.){5,17}\s*%{POSINT}\s*Delete\sTerminal)
+CHGTERM (^\s+%{WORD}\s*(\.){5,17}\s*%{POSINT}\s*Change\sTerminal)
+#COLLECT (^\s+Action_Code(\.)+\s+%{INT}\s+(%{WORD}\s)+) 
