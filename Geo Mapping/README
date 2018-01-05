@@ -1,6 +1,6 @@
-Alternative csv Geopoint upload to Elasticsearch using custom scripts.
+Alternative Method of uploading a csv Geopoint file to Elasticsearch using custom scripts.
 
-1. CSV data needs to contain 2 columns latitude and longitude for the script to run properly.
+1. CSV data needs to contain 2 columns, latitude and longitude for the script to run properly.
 2. Execute gps_script which converts each geopoint into a cURL PUT command, this data is contained in a file called gps.sh
    that's created on your working directory.Pleae edit gps_script to match your elasticsearch port,ip and csv file.
 3. Before executing gps.sh, Elasticsearch will need to know how to map a geopoint. In dev tools or curl command add/PUT gps_json 
