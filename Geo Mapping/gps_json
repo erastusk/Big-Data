@@ -1,0 +1,12 @@
+PUT gps
+{
+  "mappings": {
+    "gps": {
+      "properties": {
+        "location": {
+          "type": "geo_point"
+        }
+      }
+    }
+  }
+}

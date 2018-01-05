@@ -1,0 +1,144 @@
+input {
+	file {
+                path => "/bsil_data/dac001/dac001"
+                path => "/bsil_data/dac029/dac029"
+		start_position => "beginning"
+		sincedb_path => "/dev/null"
+		codec => multiline {
+                	pattern => "^\-{81}"
+                	negate => "true"
+                	what => "next"
+			}
+	     }
+}
+
+filter {
+	
+
+         if [path] == "/bsil_data/dac029/dac029" {
+                     mutate {add_field => ["DAC","dac029"]}
+         }else{
+                     mutate {add_field => ["DAC","dac001"]}
+		}
+
+	if "Encoded_Status_Word ........ 0x1" in [message] {
+		grok {
+			match => ["message", "Encoded_Status_Word ........ 0x1"]
+			add_field => ["Description","Command_Successful"]
+		}
+	}	
+	if "Synchronization" in [message] {
+		grok {
+			match => ["message","Synchronization"]
+			add_field => ["Description","Synchronization"]
+		}
+	}
+
+	 grok {
+                        break_on_match => false                                                 #allows multiple match grokking, grok breaks on 1st match by default
+                        patterns_dir => "/etc/logstash/conf.d/bsil_patterns"
+			match => ["message","%{SERIAL_NUMBER:serial_number}"]
+			match => ["serial_number","\s+%{WORD:sn}\s+.{5,15}\s+%{GREEDYDATA:SN_NUMBER}"]
+		}
+
+	if "Operation_Code" in [message] {	
+		grok {
+			break_on_match => false                                        		#allows multiple match grokking, grok breaks on 1st match by default 
+			patterns_dir => "/etc/logstash/conf.d/bsil_patterns"
+			match => ["message","%{OPERATION_FLAG:Operation}"]
+			match => ["Operation","\s+%{WORD:action}.{5,15}\s+%{INT:Operation_Code}\s+%{GREEDYDATA:Operation_desc}"]
+			add_field => ["Operation_code","%{[Operation_Code]}"]
+                	add_field => ["Description","%{[Operation_desc]}"]
+                	add_field => ["Operation_Notes","%{SN_NUMBER}, %{Operation_desc}" ]
+			
+		}
+	}
+
+	if "Error_Code_Word " in [message] {	
+		grok {
+			break_on_match => false                                                 #allows multiple match grokking, grok breaks on 1st match by default
+                        patterns_dir => "/etc/logstash/conf.d/bsil_patterns"
+                        match => ["message","%{ERROR:error_word}"]
+			match => ["error_word","\s+%{WORD:action}.{5,15}\s+%{INT:Operation_Code}\s+\W+%{GREEDYDATA:Operation_desc}"]
+	        	add_field => ["Error_Code","%{[Operation_Code]}"]
+                	add_field => ["Error_Description","%{[Operation_desc]}"]
+                	add_field => ["Description","%{[Operation_desc]}"]
+		}
+	}
+
+        if "Collect" in [message] {
+                grok {
+                        break_on_match => false
+                        patterns_dir => "/etc/logstash/conf.d/bsil_patterns"
+                        match => ["message","%{COLLECT:collection}"]
+			add_field => ["Description","%{[collection]}"]
+			add_field => ["Operation_Notes","%{SN_NUMBER},%{collection}(Collect Only)"]
+                }
+        }
+
+
+        if "Add Terminal" in [message] {
+                grok {
+                        break_on_match => false
+                        patterns_dir => "/etc/logstash/conf.d/bsil_patterns"
+                        match => ["message","%{ADDTERM:term_state}"]
+                        match => ["term_state","^\s+%{WORD}\s*(\.){5,17}\s*%{POSINT}\s*%{WORD:addterm}"]
+                }
+                        if [addterm] == "Add" {                                             # Conditionals have to be outside grok
+                                mutate {add_field => ["Description","%{addterm} Terminal"]}  # Use mutate in conditionals, use add_field in grok
+                                mutate {add_field => ["Operation_Notes","%{SN_NUMBER},%{addterm} Terminal"]}  # Use mutate in conditionals, use add_field in grok
+                                }
+        }
+	
+      if "Delete Terminal" in [message] {
+                grok {
+                        break_on_match => false
+                        patterns_dir => "/etc/logstash/conf.d/bsil_patterns"
+                        match => ["message","%{DELTERM:term_state}"]
+                        match => ["term_state","^\s+%{WORD}\s*(\.){5,17}\s*%{POSINT}\s*%{WORD:addterm}"]
+                }
+                        if [addterm] == "Delete" {                                             # Conditionals have to be outside grok
+                               mutate {add_field => ["Description","%{addterm} Terminal"]}  # Use mutate in conditionals, use add_field in grok
+                               mutate {add_field => ["Operation_Notes","%{SN_NUMBER},%{addterm} Terminal"]}  # Use mutate in conditionals, use add_fiel
+                                }
+        }
+        if "Change Terminal" in [message] {
+                grok {
+                        break_on_match => false
+                        patterns_dir => "/etc/logstash/conf.d/bsil_patterns"
+                        match => ["message","%{CHGTERM:term_state}"]
+                        match => ["term_state","^\s+%{WORD}\s*(\.){5,17}\s*%{POSINT}\s*%{WORD:addterm}"]
+                }
+                        if [addterm] == "Change" and "Operation_Code" not in [message] {        # Conditionals have to be outside grok
+                               mutate {add_field => ["Description","%{addterm} Terminal"]}  # Use mutate in conditionals, use add_field in grok
+                               mutate {add_field => ["Operation_Notes","%{SN_NUMBER},%{addterm} Terminal"]}  # Use mutate in conditionals, use add_fiel
+                                }
+        }
+
+	grok {
+		match => ["message", "%{DATESTAMP:logstimestamp}"] 				#First extract your logs timestamp
+			}
+	date{
+		 match => ["logstimestamp","MM/dd/yyyy HH:mm:ss.SSS","ISO8601"] 		#Parse extracted valid ISO8601 time, UNIX or UNIX_MS for unix epoch formats
+		 target => "@timestamp"								#Replace kibana timestamp
+		}
+	
+	mutate {
+		remove_field => [ "addterm","term_state","message","error_word","_type","SN_NUMBER","collection","_score","action","Operation_Code","Operation_desc","serial_number","sn","tags","logstimestamp","Operation"]
+	}
+}	
+
+output {
+        if [DAC] == "dac001" {
+                elasticsearch {
+                        hosts => "kibana"
+                        index => "dac001.bsil_report"
+        }
+        stdout {}
+        }else{
+                elasticsearch {
+                        hosts => "kibana"
+                        index => "dac029.bsil_report"
+        }
+        }
+}

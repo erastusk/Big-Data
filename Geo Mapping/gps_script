@@ -1,0 +1,16 @@
+#!/bin/bash
+it=1
+while read loc
+do
+	lat=$(echo $loc | awk -F"," '{print $1}')
+	lon=$(echo $loc | awk -F"," '{print $2}')
+	echo -e "curl -XPUT \"http://kibana:9200/gps/gps/$it\" -H 'Content-Type: application/json' -d'" >> gps.sh
+        echo "{" >> gps.sh
+        echo '   "text": "Geo-point as an object",' >> gps.sh
+        echo '   "location": {' >> gps.sh
+        echo '    "lat": '$lat, >> gps.sh
+        echo '    "lon": '$lon >> gps.sh
+        echo "  }" >> gps.sh
+        echo "}'" >> gps.sh
+	((it++))
+done < [path to your csv file ]
